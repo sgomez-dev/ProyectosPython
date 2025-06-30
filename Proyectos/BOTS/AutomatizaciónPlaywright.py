@@ -14,8 +14,8 @@ with sync_playwright() as p:
     page.fill("#name", "Duqvakha")
     page.fill("#lastName", "Karataev")
     page.fill("#email", email)
-    page.fill("#pass", "Santigt1503.")
-    page.fill("#confPass", "Santigt1503.")
+    page.fill("#pass", "........")
+    page.fill("#confPass", "........")
     time.sleep(1)
 
     print(f"Correo utilizado para registro: {email}")
