@@ -26,12 +26,12 @@ conf_pass_field = driver.find_element(By.ID, "confPass")
 
 name_field.send_keys("Santiago")
 last_name_field.send_keys("Gómez")
-email_field.send_keys(".....@sgomez.dev")
+email_field.send_keys("santiago@sgomez.dev")
 pass_field.send_keys("........")
 conf_pass_field.send_keys("........")
 
 register_button = driver.find_element(By.XPATH, "//button[contains(text(), 'Registrar')]")
 register_button.click()
 
-time.sleep(5)
+time.sleep(15)
 
