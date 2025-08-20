@@ -1,15 +1,19 @@
 import tkinter as tk
 from tkinter import filedialog
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageTk
 
 def load_image(): 
     file_path = filedialog.askopenfilename()
     if file_path:
-        global imagen
+        global imagen, imagen_tk
         imagen = Image.open(file_path)
         imagen.thumbnail((400, 400))
-        imagen_label.config(image=imagen)
-        imagen_label.image = imagen
+
+        # Convertir a imagen compatible con Tkinter
+        imagen_tk = ImageTk.PhotoImage(imagen)
+
+        imagen_label.config(image=imagen_tk)
+        imagen_label.image = imagen_tk
 
 def generate_meme():
     if imagen:
@@ -20,11 +24,15 @@ def generate_meme():
         width, height = imagen.size
         font = ImageFont.truetype("arial.ttf", 20)
 
-        text_width, text_height = draw.textsize(texto_superior, font)
-        draw.text(((width - text_width) / 2, 10), texto_superior, (255, 255, 255), font=font)
+        # Texto superior
+        bbox = draw.textbbox((0, 0), texto_superior, font=font)
+        text_width, text_height = bbox[2] - bbox[0], bbox[3] - bbox[1]
+        draw.text(((width - text_width) / 2, 10), texto_superior, fill=(255, 255, 255), font=font)
 
-        text_width, text_height = draw.textsize(texto_inferior, font)
-        draw.text(((width - text_width) / 2, height - text_height - 10), texto_inferior, (255, 255, 255), font=font)
+        # Texto inferior
+        bbox = draw.textbbox((0, 0), texto_inferior, font=font)
+        text_width, text_height = bbox[2] - bbox[0], bbox[3] - bbox[1]
+        draw.text(((width - text_width) / 2, height - text_height - 10), texto_inferior, fill=(255, 255, 255), font=font)
 
         meme_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("Imagen PNG", "*.png")])
         if meme_path:
